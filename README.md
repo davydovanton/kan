@@ -1,8 +1,6 @@
 # Kan
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/kan`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Simple fundctional authorization library for ruby. Inspired by [transproc](https://github.com/solnic/transproc)
 
 ## Installation
 
@@ -22,17 +20,69 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+class Abilities
+  extend Kan::Processing
+end
 
-## Development
+class Post::Abilities
+  extend Kan::Abilities
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+  register 'read' { |_, _| true }
+  register 'edit' { |user, post| user.id == post.user_id }
+  register 'delete' { |_, _| false }
+end
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+class Post::AdminAbilities
+  extend Kan::Abilities
+
+  register 'read' { |user, _| user.admin? }
+  register 'edit' { |user, _| user.admin? }
+  register 'delete' { |user, _| user.admin? }
+end
+
+class Comments::Abilities
+  extend Kan::Abilities
+
+  register 'read' { |_, _| true }
+  register 'edit' { |user, _| user.admin? }
+
+  register 'delete' do |user, comment|
+    user.id == comment.user_id && comment.created_at < Time.now + TEN_MINUTES
+  end
+end
+
+abilities = Abilities.new(
+  post: Post::Abilities,
+  comment: Comments::Abilities,
+)
+
+abilities['post.read'].call(current_user, post) # => true
+abilities['post.delete'].call(current_user, post) # => false
+
+abilities['comment.delete'].call(current_user, post) # => false
+
+admin_abilities = Abilities.new(
+  post: Post::AdminAbilities,
+  comment: Comments::Abilities,
+)
+
+admin_abilities['post.delete'].call(current_user, post) # => false
+admin_abilities['post.delete'].call(admin_user, post) # => true
+
+global_abilities = Abilities.new(
+  post: [Post::Abilities, Post::AdminAbilities],
+  comment: Comments::Abilities,
+)
+
+global_abilities['post.edit'].call(current_user, post) # => false
+global_abilities['post.edit'].call(owner_user, post) # => true
+global_abilities['post.edit'].call(admin_user, post) # => true
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/kan. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/davydovanton/kan. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
