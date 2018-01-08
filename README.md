@@ -33,12 +33,11 @@ class Post::Abilities
   register 'delete' { |_, _| false }
 end
 
+# register more than one ability in one place
 class Post::AdminAbilities
   extend Kan::Abilities
 
-  register 'read' { |user, _| user.admin? }
-  register 'edit' { |user, _| user.admin? }
-  register 'delete' { |user, _| user.admin? }
+  register :read, :edit, :delete { |user, _| user.admin? }
 end
 
 class Comments::Abilities
@@ -47,7 +46,7 @@ class Comments::Abilities
   register 'read' { |_, _| true }
   register 'edit' { |user, _| user.admin? }
 
-  register 'delete' do |user, comment|
+  register :delete do |user, comment|
     user.id == comment.user_id && comment.created_at < Time.now + TEN_MINUTES
   end
 end
