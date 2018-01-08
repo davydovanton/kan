@@ -79,6 +79,27 @@ global_abilities['post.edit'].call(owner_user, post) # => true
 global_abilities['post.edit'].call(admin_user, post) # => true
 ```
 
+### Dry-auto\_inject
+```ruby
+AbilitiesImport = Dry::AutoInject(Abilities.new)
+
+# Operation
+
+class UpdateOperation
+  include AbilitiesImport[ability_checker: 'post.edit']
+
+  def call(user, params)
+    return Left(:permission_denied) unless ability_checker.call(user)
+    # ...
+  end
+end
+
+# Specs
+
+UpdateOperation.new(ability_checker: ->(*) { true })
+UpdateOperation.new(ability_checker: ->(*) { false })
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/davydovanton/kan. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
