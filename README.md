@@ -21,10 +21,6 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-class Abilities
-  extend Kan::Processing
-end
-
 class Post::Abilities
   extend Kan::Abilities
 
@@ -51,7 +47,7 @@ class Comments::Abilities
   end
 end
 
-abilities = Abilities.new(
+abilities = Kan::Application.new(
   post: Post::Abilities,
   comment: Comments::Abilities,
 )
@@ -61,7 +57,7 @@ abilities['post.delete'].call(current_user, post) # => false
 
 abilities['comment.delete'].call(current_user, post) # => false
 
-admin_abilities = Abilities.new(
+admin_abilities = Kan::Application.new(
   post: Post::AdminAbilities,
   comment: Comments::Abilities,
 )
@@ -69,7 +65,7 @@ admin_abilities = Abilities.new(
 admin_abilities['post.delete'].call(current_user, post) # => false
 admin_abilities['post.delete'].call(admin_user, post) # => true
 
-global_abilities = Abilities.new(
+global_abilities = Kan::Application.new(
   post: [Post::Abilities, Post::AdminAbilities],
   comment: Comments::Abilities,
 )
@@ -81,7 +77,7 @@ global_abilities['post.edit'].call(admin_user, post) # => true
 
 ### Dry-auto\_inject
 ```ruby
-AbilitiesImport = Dry::AutoInject(Abilities.new)
+AbilitiesImport = Dry::AutoInject(Kan::Application.new({}))
 
 # Operation
 
