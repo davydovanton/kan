@@ -15,8 +15,10 @@ module Kan
       end
     end
 
+    DEFAULT_ABILITY = proc { true }
+
     def ability(name)
-      self.class.ability_list[name.to_sym]
+      self.class.ability_list[name.to_sym] || DEFAULT_ABILITY
     end
   end
 end

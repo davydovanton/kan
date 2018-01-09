@@ -41,7 +41,9 @@ RSpec.describe Kan::Abilities do
     context 'whit empty register' do
       let(:abilities) { EmptyAbilities.new }
 
-      it { expect(abilities.ability('read')).to be nil }
+      it { expect(abilities.ability('read')).to be_a Proc }
+
+      it { expect(abilities.ability('read').call).to eq true }
     end
   end
 end
