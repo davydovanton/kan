@@ -42,8 +42,14 @@ RSpec.describe Kan::Abilities do
       let(:abilities) { EmptyAbilities.new }
 
       it { expect(abilities.ability('read')).to be_a Proc }
-
       it { expect(abilities.ability('read').call).to eq true }
+    end
+
+    context 'whit other default ability block' do
+      let(:abilities) { EmptyAbilities.new(default_ability_block: proc { false }) }
+
+      it { expect(abilities.ability('read')).to be_a Proc }
+      it { expect(abilities.ability('read').call).to eq false }
     end
   end
 end

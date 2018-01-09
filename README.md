@@ -57,16 +57,18 @@ abilities['post.delete'].call(current_user, post) # => false
 
 abilities['comment.delete'].call(current_user, post) # => false
 
-# Default ability always `proc { true }`
+# Default ability eq `proc { true }`
 abilities['comment.invalid'].call(current_user, post) # => true
 
+# But you can rewrite default ability block
 admin_abilities = Kan::Application.new(
-  post: Post::AdminAbilities.new,
+  post: Post::AdminAbilities.new(default_ability_block: proc { false}),
   comment: Comments::Abilities.new,
 )
 
 admin_abilities['post.delete'].call(current_user, post) # => false
 admin_abilities['post.delete'].call(admin_user, post) # => true
+admin_abilities['post.invalid'].call(current_user, post) # => false
 
 global_abilities = Kan::Application.new(
   post: [Post::Abilities.new, Post::AdminAbilities.new],

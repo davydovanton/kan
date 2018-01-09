@@ -15,10 +15,14 @@ module Kan
       end
     end
 
-    DEFAULT_ABILITY = proc { true }
+    DEFAULT_ABILITY_BLOCK = proc { true }
+
+    def initialize(options = {})
+      @options = options
+    end
 
     def ability(name)
-      self.class.ability_list[name.to_sym] || DEFAULT_ABILITY
+      self.class.ability_list[name.to_sym] || @options[:default_ability_block] || DEFAULT_ABILITY_BLOCK
     end
   end
 end
