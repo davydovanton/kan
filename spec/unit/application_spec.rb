@@ -1,13 +1,13 @@
 RSpec.describe Kan::Application do
   class PostAbilities
-    include Kan::Ability
+    include Kan::Abilities
 
     register('read') { |_| true }
     register('edit') { |_, _| false }
   end
 
   class UserAbilities
-    include Kan::Ability
+    include Kan::Abilities
 
     register('read') { false }
   end

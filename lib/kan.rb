@@ -1,5 +1,5 @@
 require 'kan/application'
-require 'kan/ability'
+require 'kan/abilities'
 require 'kan/version'
 
 module Kan

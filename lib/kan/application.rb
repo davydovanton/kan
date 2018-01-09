@@ -1,12 +1,12 @@
 module Kan
   class Application
-    def initialize(abilities)
-      @abilities = Hash(abilities)
+    def initialize(scopes)
+      @scopes = Hash(scopes)
     end
 
-    def [](ability_name)
-      ability, action_name = ability_name.split('.')
-      @abilities[ability.to_sym].action(action_name)
+    def [](ability)
+      scope, ability_name = ability.split('.')
+      @scopes[scope.to_sym].ability(ability_name)
     end
   end
 end
