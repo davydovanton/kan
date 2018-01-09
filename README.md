@@ -57,6 +57,9 @@ abilities['post.delete'].call(current_user, post) # => false
 
 abilities['comment.delete'].call(current_user, post) # => false
 
+# Default ability always `proc { true }`
+abilities['comment.invalid'].call(current_user, post) # => true
+
 admin_abilities = Kan::Application.new(
   post: Post::AdminAbilities,
   comment: Comments::Abilities,
