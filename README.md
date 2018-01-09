@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ```ruby
 class Post::Abilities
-  extend Kan::Abilities
+  include Kan::Abilities
 
   register 'read' { |_, _| true }
   register 'edit' { |user, post| user.id == post.user_id }
@@ -31,13 +31,13 @@ end
 
 # register more than one ability in one place
 class Post::AdminAbilities
-  extend Kan::Abilities
+  include Kan::Abilities
 
   register :read, :edit, :delete { |user, _| user.admin? }
 end
 
 class Comments::Abilities
-  extend Kan::Abilities
+  include Kan::Abilities
 
   register 'read' { |_, _| true }
   register 'edit' { |user, _| user.admin? }
