@@ -3,11 +3,17 @@ RSpec.describe Kan::Abilities do
     include Kan::Abilities
 
     register('read') { |_| true }
-    register('edit') { |_, _| false }
+    register(:edit) { |_, _| false }
   end
 
   class EmptyAbilities
     include Kan::Abilities
+  end
+
+  class ArrayAbilities
+    include Kan::Abilities
+
+    register('read', :edit) { true }
   end
 
   let(:abilities) { PostAbilities.new }
@@ -21,7 +27,21 @@ RSpec.describe Kan::Abilities do
 
   describe '#action' do
     it { expect(abilities.ability('read')).to be_a Proc }
+
     it { expect(abilities.ability('read').call).to eq true }
     it { expect(abilities.ability('edit').call).to eq false }
+
+    context 'whit array register' do
+      let(:abilities) { ArrayAbilities.new }
+
+      it { expect(abilities.ability('read').call).to eq true }
+      it { expect(abilities.ability('edit').call).to eq true }
+    end
+
+    context 'whit empty register' do
+      let(:abilities) { EmptyAbilities.new }
+
+      it { expect(abilities.ability('read')).to be nil }
+    end
   end
 end

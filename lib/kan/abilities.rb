@@ -5,9 +5,9 @@ module Kan
     end
 
     module ClassMethods
-      def register(ability, &block)
+      def register(*abilities, &block)
         @ability_list ||= {}
-        @ability_list[ability.to_sym] = block
+        abilities.each { |ability| @ability_list[ability.to_sym] = block }
       end
 
       def ability_list
