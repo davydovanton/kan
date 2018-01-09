@@ -48,8 +48,8 @@ class Comments::Abilities
 end
 
 abilities = Kan::Application.new(
-  post: Post::Abilities,
-  comment: Comments::Abilities,
+  post: Post::Abilities.new,
+  comment: Comments::Abilities.new,
 )
 
 abilities['post.read'].call(current_user, post) # => true
@@ -61,16 +61,16 @@ abilities['comment.delete'].call(current_user, post) # => false
 abilities['comment.invalid'].call(current_user, post) # => true
 
 admin_abilities = Kan::Application.new(
-  post: Post::AdminAbilities,
-  comment: Comments::Abilities,
+  post: Post::AdminAbilities.new,
+  comment: Comments::Abilities.new,
 )
 
 admin_abilities['post.delete'].call(current_user, post) # => false
 admin_abilities['post.delete'].call(admin_user, post) # => true
 
 global_abilities = Kan::Application.new(
-  post: [Post::Abilities, Post::AdminAbilities],
-  comment: Comments::Abilities,
+  post: [Post::Abilities.new, Post::AdminAbilities.new],
+  comment: Comments::Abilities.new,
 )
 
 global_abilities['post.edit'].call(current_user, post) # => false
