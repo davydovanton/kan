@@ -1,6 +1,6 @@
 # Kan
 
-Simple fundctional authorization library for ruby. Inspired by [transproc](https://github.com/solnic/transproc)
+Simple functional authorization library for ruby. Inspired by [transproc](https://github.com/solnic/transproc)
 
 ## Installation
 
