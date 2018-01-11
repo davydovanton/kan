@@ -31,21 +31,21 @@ RSpec.describe Kan::Abilities do
     it { expect(abilities.ability('read').call).to eq true }
     it { expect(abilities.ability('edit').call).to eq false }
 
-    context 'whit array register' do
+    context 'with array register' do
       let(:abilities) { ArrayAbilities.new }
 
       it { expect(abilities.ability('read').call).to eq true }
       it { expect(abilities.ability('edit').call).to eq true }
     end
 
-    context 'whit empty register' do
+    context 'with empty register' do
       let(:abilities) { EmptyAbilities.new }
 
       it { expect(abilities.ability('read')).to be_a Proc }
       it { expect(abilities.ability('read').call).to eq true }
     end
 
-    context 'whit other default ability block' do
+    context 'with other default ability block' do
       let(:abilities) { EmptyAbilities.new(default_ability_block: proc { false }) }
 
       it { expect(abilities.ability('read')).to be_a Proc }
