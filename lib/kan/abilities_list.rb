@@ -6,7 +6,9 @@ module Kan
     end
 
     def call(*payload)
-      @list.first.ability(@name).call(*payload)
+      @list
+        .select { |abilities| abilities.class.valid_role?(*payload) }
+        .any? { |abilities| abilities.ability(@name).call(*payload) }
     end
   end
 end

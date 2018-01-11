@@ -27,6 +27,24 @@ RSpec.describe Kan::AbilitiesList do
   describe '#call' do
     subject { abilities_list.call(a: 1) }
 
-    it { expect(subject).to eq false }
+    context 'when roles are match' do
+      context 'and ability alows' do
+        let(:list) { [PostAbilities.new, EmptyAbilities.new, ArrayAbilities.new] }
+
+        it { expect(subject).to eq true }
+      end
+
+      context 'and ability does not alow' do
+        let(:list) { [PostAbilities.new, EmptyAbilities.new] }
+
+        it { expect(subject).to eq false }
+      end
+    end
+
+    context 'when roles are not match' do
+      let(:list) { [EmptyAbilities.new] }
+
+      it { expect(subject).to eq false }
+    end
   end
 end

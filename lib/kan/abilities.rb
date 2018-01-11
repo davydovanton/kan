@@ -26,6 +26,10 @@ module Kan
         @role_block || DEFAULT_ROLE_BLOCK
       end
 
+      def valid_role?(*args)
+        role_block.call(*args)
+      end
+
       def ability_list
         @ability_list || {}
       end
