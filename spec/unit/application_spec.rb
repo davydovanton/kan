@@ -20,14 +20,18 @@ RSpec.describe Kan::Application do
   end
 
   describe '[]' do
-    it { expect(app['post.read']).to be_a Proc }
+    it { expect(app['post.read']).to be_a Kan::AbilitiesList }
 
     it { expect(app['post.read'].call).to eq true }
     it { expect(app['post.edit'].call).to eq false }
 
-    it { expect(app['user.read']).to be_a Proc }
+    it { expect(app['user.read']).to be_a Kan::AbilitiesList }
 
     it { expect(app['user.read'].call).to eq false }
+
+    context 'when ability does not exist' do
+      it { expect(app['user.not_exist'].call).to eq true }
+    end
 
     context 'when scope does not exist' do
       it { expect { app['tasks.read'].call }.to raise_error 'Invalid scope tasks' }

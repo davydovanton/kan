@@ -6,13 +6,17 @@ module Kan
 
     def [](ability)
       scope, ability_name = ability.split('.')
-      abilities = @scopes[scope.to_sym]
 
-      if abilities
-        abilities.ability(ability_name)
-      else
-        raise ArgumentError.new("Invalid scope #{scope}")
-      end
+      abilities = Array(@scopes[scope.to_sym])
+      raise_scope_error(scope) if abilities.empty?
+
+      AbilitiesList.new(ability_name, abilities)
+    end
+
+    private
+
+    def raise_scope_error(scope)
+      raise ArgumentError.new("Invalid scope #{scope}")
     end
   end
 end
