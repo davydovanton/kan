@@ -1,6 +1,20 @@
 # Kan
 
-Simple functional authorization library for ruby. Inspired by [transproc](https://github.com/solnic/transproc)
+Simple functional authorization library for ruby. Inspired by [transproc](https://github.com/solnic/transproc) and [dry project](http://dry-rb.org)
+
+## Table of context
+
+* [Installation](#installation)
+* [Usage](#usage)
+  * [Register abilities](#register-abilities)
+  * [Check abilities](#check-abilities)
+    * [Default ability block](#default-ability-block)
+    * [List of abilities](#list-of-abilities)
+  * [Roles](#roles)
+  * [Dry-auto\_inject](#dry-auto_inject)
+* [Contributing](#contributing)
+* [License](#license)
+* [Code of Conduct](#code-of-conduct)
 
 ## Installation
 
