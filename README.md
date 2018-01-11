@@ -127,8 +127,7 @@ module Post
       user.id.nil?
     end
 
-    register(:read) { |_, _| true }
-    register(:edit, :delete) { |user, post| false }
+    register(:read, :edit, :delete) { false }
   end
 
   class BaseAbilities
