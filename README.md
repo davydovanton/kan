@@ -102,6 +102,79 @@ global_abilities['post.edit'].call(owner_user, post) # => true
 global_abilities['post.edit'].call(admin_user, post) # => true
 ```
 
+### Roles
+Kan provide simple role system. For this you need to define role block in each abilities classes:
+```ruby
+module Post
+  class AnonymousAbilities
+    include Kan::Abilities
+
+    role :anonymous do |user, _|
+      user.id.nil?
+    end
+
+    register(:read) { |_, _| true }
+    register(:edit, :delete) { |user, post| false }
+  end
+
+  class BaseAbilities
+    include Kan::Abilities
+
+    role :all do |_, _|
+      true
+    end
+
+    register(:read) { |_, _| true }
+    register(:edit, :delete) { |user, post| false }
+  end
+
+
+  class AuthorAbilities
+    include Kan::Abilities
+
+    role :author do |user, post|
+      user.id == post.author_id
+    end
+
+    register(:read, :edit) { |_, _| true }
+    register(:delete) { |_, _| false }
+  end
+
+  class AdminAbilities
+    include Kan::Abilities
+
+    role :admin do |user, _|
+      user.admin?
+    end
+
+    register :read, :edit, :delete { |_, _| true }
+  end
+end
+```
+
+After that initialize Kan application object and call it with payload:
+```ruby
+abilities = Kan::Application.new(
+  post: [Post::AnonymousAbilities.new, Post::BaseAbilities.new, Post::AuthorAbilities.new, Post::AdminAbilities.new]
+  comment: Comments::Abilities.new,
+)
+
+abilities['post.read'].call(anonymous, post) # => false
+abilities['post.read'].call(regular, post)   # => true
+abilities['post.read'].call(auther, post)    # => true
+abilities['post.read'].call(admin, post)     # => true
+
+abilities['post.edit'].call(anonymous, post) # => false
+abilities['post.edit'].call(regular, post)   # => false
+abilities['post.edit'].call(auther, post)    # => true
+abilities['post.edit'].call(admin, post)     # => true
+
+abilities['post.delete'].call(anonymous, post) # => false
+abilities['post.delete'].call(regular, post)   # => false
+abilities['post.delete'].call(auther, post)    # => false
+abilities['post.delete'].call(admin, post)     # => true
+```
+
 ### Dry-auto\_inject
 ```ruby
 AbilitiesImport = Dry::AutoInject(Kan::Application.new({}))
