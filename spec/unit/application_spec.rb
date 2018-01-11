@@ -28,5 +28,9 @@ RSpec.describe Kan::Application do
     it { expect(app['user.read']).to be_a Proc }
 
     it { expect(app['user.read'].call).to eq false }
+
+    context 'when scope does not exist' do
+      it { expect { app['tasks.read'].call }.to raise_error 'Invalid scope tasks' }
+    end
   end
 end

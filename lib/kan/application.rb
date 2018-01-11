@@ -6,7 +6,13 @@ module Kan
 
     def [](ability)
       scope, ability_name = ability.split('.')
-      @scopes[scope.to_sym].ability(ability_name)
+      abilities = @scopes[scope.to_sym]
+
+      if abilities
+        abilities.ability(ability_name)
+      else
+        raise ArgumentError.new("Invalid scope #{scope}")
+      end
     end
   end
 end
