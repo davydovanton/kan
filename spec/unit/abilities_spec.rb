@@ -2,12 +2,16 @@ RSpec.describe Kan::Abilities do
   class PostAbilities
     include Kan::Abilities
 
+    role(:manager) { |_, _| true }
+
     register('read') { |_| true }
     register(:edit) { |_, _| false }
   end
 
   class EmptyAbilities
     include Kan::Abilities
+
+    role(:anonymous) { false }
   end
 
   class ArrayAbilities
@@ -23,6 +27,18 @@ RSpec.describe Kan::Abilities do
 
     it { expect(PostAbilities.ability_list).to be_a Hash }
     it { expect(PostAbilities.ability_list.keys).to eq [:read, :edit] }
+  end
+
+  describe '::role_name' do
+    it { expect(EmptyAbilities.role_name).to eq :anonymous }
+    it { expect(PostAbilities.role_name).to eq :manager }
+    it { expect(ArrayAbilities.role_name).to eq :base }
+  end
+
+  describe '::role_block' do
+    it { expect(EmptyAbilities.role_block.call).to eq false }
+    it { expect(PostAbilities.role_block.call).to eq true }
+    it { expect(ArrayAbilities.role_block.call).to eq true }
   end
 
   describe '#action' do

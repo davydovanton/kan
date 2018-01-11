@@ -5,9 +5,25 @@ module Kan
     end
 
     module ClassMethods
+      DEFAULT_ROLE_NAME = :base
+      DEFAULT_ROLE_BLOCK = proc { true }
+
       def register(*abilities, &block)
         @ability_list ||= {}
         abilities.each { |ability| @ability_list[ability.to_sym] = block }
+      end
+
+      def role(role_name, &block)
+        @role_name = role_name
+        @role_block = block
+      end
+
+      def role_name
+        @role_name || DEFAULT_ROLE_NAME
+      end
+
+      def role_block
+        @role_block || DEFAULT_ROLE_BLOCK
       end
 
       def ability_list
