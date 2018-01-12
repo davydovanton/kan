@@ -174,17 +174,17 @@ abilities = Kan::Application.new(
 
 abilities['post.read'].call(anonymous, post) # => false
 abilities['post.read'].call(regular, post)   # => true
-abilities['post.read'].call(auther, post)    # => true
+abilities['post.read'].call(author, post)    # => true
 abilities['post.read'].call(admin, post)     # => true
 
 abilities['post.edit'].call(anonymous, post) # => false
 abilities['post.edit'].call(regular, post)   # => false
-abilities['post.edit'].call(auther, post)    # => true
+abilities['post.edit'].call(author, post)    # => true
 abilities['post.edit'].call(admin, post)     # => true
 
 abilities['post.delete'].call(anonymous, post) # => false
 abilities['post.delete'].call(regular, post)   # => false
-abilities['post.delete'].call(auther, post)    # => false
+abilities['post.delete'].call(author, post)    # => false
 abilities['post.delete'].call(admin, post)     # => true
 ```
 
@@ -219,4 +219,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Kan project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/kan/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Kan project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/davydovanton/kan/blob/master/CODE_OF_CONDUCT.md).
