@@ -41,6 +41,10 @@ module Kan
       @options = options
     end
 
+    def update_options(new_options)
+      self.class.new(new_options.merge(@options))
+    end
+
     def ability(name)
       self.class.ability_list[name.to_sym] || @options[:default_ability_block] || DEFAULT_ABILITY_BLOCK
     end

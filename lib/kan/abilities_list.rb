@@ -1,8 +1,8 @@
 module Kan
   class AbilitiesList
-    def initialize(name, list)
+    def initialize(name, list, default_options = {})
       @name = name
-      @list = list
+      @list = list.map { |ability| ability.update_options(default_options) }
     end
 
     def call(*payload)
