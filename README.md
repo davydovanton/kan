@@ -1,4 +1,5 @@
 # Kan
+[![Build Status](https://travis-ci.org/davydovanton/kan.svg?branch=master)](https://travis-ci.org/davydovanton/kan)
 
 Simple functional authorization library for ruby. Inspired by [transproc](https://github.com/solnic/transproc) and [dry project](http://dry-rb.org)
 
