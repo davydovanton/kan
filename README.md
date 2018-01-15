@@ -72,12 +72,11 @@ end
 ```ruby
 abilities = Kan::Application.new(
   post: Post::Abilities.new,
-  comment: Comments::Abilities.new,
+  comment: Comments::Abilities.new
 )
 
 abilities['post.read'].call(current_user, post) # => true
 abilities['post.delete'].call(current_user, post) # => false
-
 abilities['comment.delete'].call(current_user, post) # => false
 ```
 
@@ -93,12 +92,12 @@ But you can rewrite it
 
 ```ruby
 admin_abilities = Kan::Application.new(
-  post: Post::AdminAbilities.new(default_ability_block: proc { false}),
+  post: Post::AdminAbilities.new(default_ability_block: proc { false }),
   comment: Comments::Abilities.new,
 )
 
-admin_abilities['post.delete'].call(current_user, post) # => false
-admin_abilities['post.delete'].call(admin_user, post) # => true
+admin_abilities['post.delete'].call(current_user, post)  # => false
+admin_abilities['post.delete'].call(admin_user, post)    # => true
 admin_abilities['post.invalid'].call(current_user, post) # => false
 ```
 
@@ -108,12 +107,12 @@ You can provide array of abilities for each scope and Kan will return `true` if 
 ```ruby
 global_abilities = Kan::Application.new(
   post: [Post::Abilities.new, Post::AdminAbilities.new],
-  comment: Comments::Abilities.new,
+  comment: Comments::Abilities.new
 )
 
 global_abilities['post.edit'].call(current_user, post) # => false
-global_abilities['post.edit'].call(owner_user, post) # => true
-global_abilities['post.edit'].call(admin_user, post) # => true
+global_abilities['post.edit'].call(owner_user, post)   # => true
+global_abilities['post.edit'].call(admin_user, post)   # => true
 ```
 
 ### Roles
@@ -168,8 +167,8 @@ end
 After that initialize Kan application object and call it with payload:
 ```ruby
 abilities = Kan::Application.new(
-  post: [Post::AnonymousAbilities.new, Post::BaseAbilities.new, Post::AuthorAbilities.new, Post::AdminAbilities.new]
-  comment: Comments::Abilities.new,
+  post: [Post::AnonymousAbilities.new, Post::BaseAbilities.new, Post::AuthorAbilities.new, Post::AdminAbilities.new],
+  comment: Comments::Abilities.new
 )
 
 abilities['post.read'].call(anonymous, post) # => false
