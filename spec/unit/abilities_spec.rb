@@ -21,6 +21,12 @@ RSpec.describe Kan::Abilities do
     register('logger') { logger }
   end
 
+  class LogAbilities
+    include Kan::Abilities
+
+    register('read') { logger }
+  end
+
   let(:abilities) { PostAbilities.new }
 
   describe '::ability_list' do
@@ -69,10 +75,17 @@ RSpec.describe Kan::Abilities do
       it { expect(abilities.ability('read').call).to eq false }
     end
 
-    context 'with logger' do
-      let(:abilities) { ArrayAbilities.new }
+    context 'with default logger' do
+      let(:abilities) { LogAbilities.new }
 
-      it { expect(abilities.ability('logger').call).to be_a Logger }
+      it { expect(abilities.ability('read').call).to be_a Logger }
+    end
+
+    context 'with custom logger' do
+      let(:logger) { double(Logger) }
+      let(:abilities) { LogAbilities.new(logger: logger) }
+
+      it { expect(abilities.ability('read').call).to be_a logger.class }
     end
   end
 end

@@ -10,8 +10,6 @@ module Kan
       DEFAULT_ROLE_NAME = :base
       DEFAULT_ROLE_BLOCK = proc { true }
 
-      attr_accessor :logger
-
       def register(*abilities, &block)
         @ability_list ||= {}
         abilities.each { |ability| @ability_list[ability.to_sym] = block }
@@ -41,13 +39,16 @@ module Kan
 
     DEFAULT_ABILITY_BLOCK = proc { true }
 
+    attr_reader :logger
+
     def initialize(options = {})
       @options = options
-      self.class.logger = @options.fetch(:logger, Logger.new(STDOUT))
+      @logger = @options.fetch(:logger, Logger.new(STDOUT))
     end
 
     def ability(name)
-      self.class.ability_list[name.to_sym] || @options[:default_ability_block] || DEFAULT_ABILITY_BLOCK
+      rule = self.class.ability_list[name.to_sym] || @options[:default_ability_block] || DEFAULT_ABILITY_BLOCK
+      lambda { |*args| instance_exec(args, &rule) }
     end
   end
 end
