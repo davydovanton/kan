@@ -1,3 +1,5 @@
+require 'logger'
+
 module Kan
   module Abilities
     def self.included(base)
@@ -7,6 +9,8 @@ module Kan
     module ClassMethods
       DEFAULT_ROLE_NAME = :base
       DEFAULT_ROLE_BLOCK = proc { true }
+
+      attr_accessor :logger
 
       def register(*abilities, &block)
         @ability_list ||= {}
@@ -39,6 +43,7 @@ module Kan
 
     def initialize(options = {})
       @options = options
+      self.class.logger = @options.fetch(:logger, Logger.new(STDOUT))
     end
 
     def ability(name)

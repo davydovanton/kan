@@ -18,6 +18,7 @@ RSpec.describe Kan::Abilities do
     include Kan::Abilities
 
     register('read', :edit) { true }
+    register('logger') { logger }
   end
 
   let(:abilities) { PostAbilities.new }
@@ -66,6 +67,12 @@ RSpec.describe Kan::Abilities do
 
       it { expect(abilities.ability('read')).to be_a Proc }
       it { expect(abilities.ability('read').call).to eq false }
+    end
+
+    context 'with logger' do
+      let(:abilities) { ArrayAbilities.new }
+
+      it { expect(abilities.ability('logger').call).to be_a Logger }
     end
   end
 end
