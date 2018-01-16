@@ -1,3 +1,5 @@
+require 'logger'
+
 module Kan
   module Abilities
     def self.included(base)
@@ -37,12 +39,16 @@ module Kan
 
     DEFAULT_ABILITY_BLOCK = proc { true }
 
+    attr_reader :logger
+
     def initialize(options = {})
       @options = options
+      @logger = @options.fetch(:logger, Logger.new(STDOUT))
     end
 
     def ability(name)
-      self.class.ability_list[name.to_sym] || @options[:default_ability_block] || DEFAULT_ABILITY_BLOCK
+      rule = self.class.ability_list[name.to_sym] || @options[:default_ability_block] || DEFAULT_ABILITY_BLOCK
+      lambda { |*args| instance_exec(args, &rule) }
     end
   end
 end
