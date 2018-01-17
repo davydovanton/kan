@@ -188,6 +188,26 @@ abilities['post.delete'].call(author, post)    # => false
 abilities['post.delete'].call(admin, post)     # => true
 ```
 
+### Logger support
+By default kan support default ruby logger (`Logger.new` class). For setup custom logger you can use `logger` option for each abilities instances:
+```ruby
+abilities = Kan::Application.new(
+  comment: Comments::Abilities.new(logger: MyCustomLogger.new)
+)
+```
+
+And call it from ability block:
+```ruby
+class AnonymousAbilities
+  include Kan::Abilities
+
+  register(:read, :edit, :delete) do
+    logger.info 'Anonymous ability checked'
+    false
+  end
+end
+```
+
 ### Dry-auto\_inject
 ```ruby
 AbilitiesImport = Dry::AutoInject(Kan::Application.new({}))
