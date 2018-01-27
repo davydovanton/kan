@@ -229,6 +229,49 @@ UpdateOperation.new(ability_checker: ->(*) { true })
 UpdateOperation.new(ability_checker: ->(*) { false })
 ```
 
+### Testing
+
+For expample we have a simple kan class:
+
+```ruby
+class Comments::Abilities
+  include Kan::Abilities
+
+  register('read') { |user, _| user&.id }
+
+  register 'edit' do |user, comment|
+    user.id == comment.id || user.admin?
+  end
+end
+```
+
+#### Specific ability
+For testing specific ability use `#ability` Abilities method:
+
+```ruby
+RSpec.describe Comments::Abilities do
+  let(:abilities) { described_class.new }
+
+  subject { ability.call(account, nil) }
+
+  describe 'read ability' do
+    let(:ability) { abilities.ability(:read) } # it will return proc object
+
+    context 'when user login' do
+      let(:user) { User.new(id: 1) }
+
+      it { expect(subject).to eq true }
+    end
+
+    context 'when user anonymous' do
+      let(:user) { User.new(id: 1) }
+
+      it { expect(subject).to eq false }
+    end
+  end
+end
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/davydovanton/kan. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
