@@ -2,6 +2,7 @@ module Kan
   class Application
     def initialize(scopes)
       @scopes = Hash(scopes)
+      @abilities_lists = {}
     end
 
     def [](ability)
@@ -9,8 +10,8 @@ module Kan
 
       abilities = Array(@scopes[scope.to_sym])
       raise_scope_error(scope) if abilities.empty?
-
-      AbilitiesList.new(ability_name, abilities)
+      return @abilities_lists[ability] if @abilities_lists[ability]
+      @abilities_lists[ability] = AbilitiesList.new(ability_name, abilities)
     end
 
     private
