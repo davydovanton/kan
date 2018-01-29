@@ -41,9 +41,9 @@ Or install it yourself as:
 class Post::Abilities
   include Kan::Abilities
 
-  register 'read' { |_, _| true }
-  register 'edit' { |user, post| user.id == post.user_id }
-  register 'delete' { |_, _| false }
+  register('read') { |_, _| true }
+  register('edit') { |user, post| user.id == post.user_id }
+  register('delete') { |_, _| false }
 end
 ```
 
@@ -53,16 +53,16 @@ Also, you can register more than one ability in one place and use string or symb
 class Post::AdminAbilities
   include Kan::Abilities
 
-  register :read, :edit, :delete { |user, _| user.admin? }
+  register(:read, :edit, :delete) { |user, _| user.admin? }
 end
 
 class Comments::Abilities
   include Kan::Abilities
 
-  register 'read' { |_, _| true }
-  register 'edit' { |user, _| user.admin? }
+  register('read') { |_, _| true }
+  register('edit') { |user, _| user.admin? }
 
-  register :delete do |user, comment|
+  register(:delete) do |user, comment|
     user.id == comment.user_id && comment.created_at < Time.now + TEN_MINUTES
   end
 end
@@ -123,7 +123,7 @@ module Post
   class AnonymousAbilities
     include Kan::Abilities
 
-    role :anonymous do |user, _|
+    role(:anonymous) do |user, _|
       user.id.nil?
     end
 
@@ -133,7 +133,7 @@ module Post
   class BaseAbilities
     include Kan::Abilities
 
-    role :all do |_, _|
+    role(:all) do |_, _|
       true
     end
 
@@ -145,7 +145,7 @@ module Post
   class AuthorAbilities
     include Kan::Abilities
 
-    role :author do |user, post|
+    role(:author) do |user, post|
       user.id == post.author_id
     end
 
@@ -156,11 +156,11 @@ module Post
   class AdminAbilities
     include Kan::Abilities
 
-    role :admin do |user, _|
+    role(:admin) do |user, _|
       user.admin?
     end
 
-    register :read, :edit, :delete { |_, _| true }
+    register(:read, :edit, :delete) { |_, _| true }
   end
 end
 ```
@@ -239,7 +239,7 @@ class Comments::Abilities
 
   register('read') { |user, _| user&.id }
 
-  register 'edit' do |user, comment|
+  register('edit') do |user, comment|
     user.id == comment.id || user.admin?
   end
 end
