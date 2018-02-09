@@ -1,4 +1,6 @@
-RSpec.describe Kan::Application do
+require 'spec_helper'
+
+RSpec.describe Kan::Application, type: :ability do
   class PostAbilities
     include Kan::Abilities
 
@@ -19,7 +21,7 @@ RSpec.describe Kan::Application do
     )
   end
 
-  permissions :read, :edit do
+  permissions do
     it "denies access for post edit" do
       expect(subject).not_to permit('post.edit')
     end
@@ -29,7 +31,7 @@ RSpec.describe Kan::Application do
     end
 
     it "denies access for user read" do
-      expect(subject).to permit('user.read')
+      expect(subject).not_to permit('user.read')
     end
   end
 end
