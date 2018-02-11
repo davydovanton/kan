@@ -1,18 +1,20 @@
 require 'spec_helper'
 
 RSpec.describe Kan::Application, type: :ability do
-  class PostAbilities
-    include Kan::Abilities
+  module CustomMatcher
+    class PostAbilities
+      include Kan::Abilities
 
-    register(:read) { |_| true }
-    register(:edit) { |user, post| user.id == post.user_id }
-  end
+      register(:read) { |_| true }
+      register(:edit) { |user, post| user.id == post.user_id }
+    end
 
-  class UserAbilities
-    include Kan::Abilities
+    class UserAbilities
+      include Kan::Abilities
 
-    register(:read) { |_| true }
-    register(:delete) { |user| user.admin? }
+      register(:read) { |_| true }
+      register(:delete) { |user, _| user.admin? }
+    end
   end
 
   let(:user)       { double('User', id: 1, admin?: false) }
@@ -22,8 +24,8 @@ RSpec.describe Kan::Application, type: :ability do
 
   subject do
     Kan::Application.new(
-      user: UserAbilities.new,
-      post: PostAbilities.new
+      user: CustomMatcher::UserAbilities.new,
+      post: CustomMatcher::PostAbilities.new
     )
   end
 
