@@ -272,6 +272,30 @@ RSpec.describe Comments::Abilities do
 end
 ```
 
+Or testing specific ability using custom matchers:
+```ruby
+RSpec.describe Comments::Abilities, type: :ability do
+  subject do
+    Kan::Application.new(
+      user:    Users::Abilities.new,
+      comment: Comments::Abilities.new
+    )
+  end
+
+  describe 'read ability' do
+    context 'when user login' do
+      let(:user) { User.new(id: 1) }
+      it { is_expected.to permit('comment.read', user) }
+    end
+
+    context 'when user anonymous' do
+      let(:user) { User.new(id: 1) }
+      it { is_expected.not_to permit('comment.read', user) }
+    end
+  end
+end
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/davydovanton/kan. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.

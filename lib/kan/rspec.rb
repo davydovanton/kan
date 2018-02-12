@@ -3,13 +3,13 @@ module Kan
     module Matchers
       extend ::RSpec::Matchers::DSL
 
-      matcher :permit do |ability|
+      matcher :permit do |ability, *targets|
         match_proc = lambda do |app|
-          app[ability].call
+          app[ability].call(*targets)
         end
 
         match_when_negated_proc = lambda do |app|
-          !app[ability].call
+          !app[ability].call(*targets)
         end
 
         failure_message_proc = lambda do |_app|
