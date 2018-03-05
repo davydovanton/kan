@@ -12,6 +12,7 @@ Simple functional authorization library for ruby. Inspired by [transproc](https:
     * [Default ability block](#default-ability-block)
     * [List of abilities](#list-of-abilities)
   * [Roles](#roles)
+    * [Class objects as role](#class-objects-as-role)
   * [Dry-auto\_inject](#dry-auto_inject)
 * [Contributing](#contributing)
 * [License](#license)
@@ -185,6 +186,59 @@ abilities['post.edit'].call(admin, post)     # => true
 abilities['post.delete'].call(anonymous, post) # => false
 abilities['post.delete'].call(regular, post)   # => false
 abilities['post.delete'].call(author, post)    # => false
+abilities['post.delete'].call(admin, post)     # => true
+```
+
+#### Class objects as role
+
+Kan allow to use classes as roles for incapulate and easily testing your roles.
+```ruby
+module Post
+  module Roles
+    class Admin
+      def call(user, _)
+        user.admin?
+      end
+    end
+
+    class Anonymous
+      def call(user, _)
+        user.id.nil?
+      end
+    end
+  end
+
+  class AnonymousAbilities
+    include Kan::Abilities
+
+    role :anonymous, Anonymous
+
+    register(:read, :edit, :delete) { false }
+  end
+
+  class AdminAbilities
+    include Kan::Abilities
+
+    role :admin, Roles::Admin
+
+    register(:read, :edit, :delete) { |_, _| true }
+  end
+end
+```
+
+And after that you can call it:
+```ruby
+abilities = Kan::Application.new(
+  post: [Post::AnonymousAbilities.new, Post::AdminAbilities.new]
+)
+
+abilities['post.read'].call(anonymous, post) # => false
+abilities['post.read'].call(admin, post)     # => true
+
+abilities['post.edit'].call(anonymous, post) # => false
+abilities['post.edit'].call(admin, post)     # => true
+
+abilities['post.delete'].call(anonymous, post) # => false
 abilities['post.delete'].call(admin, post)     # => true
 ```
 
