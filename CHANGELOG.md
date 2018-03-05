@@ -1,5 +1,6 @@
 ## HEAD
 
+* Allow to use classes as role objects (@davydovanton) #18
 * Add `#permit` matcher for rspec specs (@berniechiu) #15
 
 ## v0.2
