@@ -30,7 +30,7 @@ RSpec.describe 'Rolle class' do
     end
   end
 
-  describe 'when role is object' do
+  describe 'when role is callable object' do
     let(:admin_post_abilities) do
       Class.new do
         include Kan::Abilities
@@ -53,6 +53,23 @@ RSpec.describe 'Rolle class' do
 
       it { expect(ability.call(user, nil)).to eq false }
     end
+  end
+
+  describe 'when role is not callable object' do
+    let(:admin_post_abilities) do
+      Class.new do
+        include Kan::Abilities
+        role :admin, 1
+        register('read') { |_| true }
+      end
+    end
+
+    let(:app) { Kan::Application.new(post: [admin_post_abilities.new]) }
+    let(:ability) { app['post.read'] }
+
+    let(:admin) { double(:user, admin?: true) }
+
+    it { expect { ability.call(admin, nil) }.to raise_error(Kan::Abilities::InvalidRoleObjectError) }
   end
 
   describe 'when abilities set as object' do
