@@ -15,9 +15,9 @@ module Kan
         abilities.each { |ability| @ability_list[ability.to_sym] = block }
       end
 
-      def role(role_name, klass = nil, &block)
+      def role(role_name, object = nil, &block)
         @role_name = role_name
-        @role_block = klass ? klass.new : block
+        @role_block = object ? make_callable(object) : block
       end
 
       def role_name
@@ -34,6 +34,12 @@ module Kan
 
       def ability_list
         @ability_list || {}
+      end
+
+      private
+
+      def make_callable(object)
+        object.is_a?(Class) ? object.new : object
       end
     end
 
