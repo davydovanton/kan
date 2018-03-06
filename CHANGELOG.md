@@ -1,6 +1,7 @@
 ## HEAD
 
-* Allow to use classes as role objects (@davydovanton) #18
+* Allow to use callable objects as a role objects (@davydovanton) #20
+* Allow to use classes as a role objects (@davydovanton) #18
 * Add `#permit` matcher for rspec specs (@berniechiu) #15
 
 ## v0.2
