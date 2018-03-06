@@ -13,6 +13,7 @@ Simple functional authorization library for ruby. Inspired by [transproc](https:
     * [List of abilities](#list-of-abilities)
   * [Roles](#roles)
     * [Class objects as role](#class-objects-as-role)
+    * [Callable objects as role](#callable-objects-as-role)
   * [Dry-auto\_inject](#dry-auto_inject)
 * [Contributing](#contributing)
 * [License](#license)
@@ -226,20 +227,41 @@ module Post
 end
 ```
 
-And after that you can call it:
+#### Callable objects as role
+
+Kan allow to use "callable" (objects with `#call` method) as a role object. For this just put it into ability class:
 ```ruby
-abilities = Kan::Application.new(
-  post: [Post::AnonymousAbilities.new, Post::AdminAbilities.new]
-)
+module Post
+  module Roles
+    class Admin
+      def call(user, _)
+        user.admin?
+      end
+    end
 
-abilities['post.read'].call(anonymous, post) # => false
-abilities['post.read'].call(admin, post)     # => true
+    class Anonymous
+      def call(user, _)
+        user.id.nil?
+      end
+    end
+  end
 
-abilities['post.edit'].call(anonymous, post) # => false
-abilities['post.edit'].call(admin, post)     # => true
+  class AnonymousAbilities
+    include Kan::Abilities
 
-abilities['post.delete'].call(anonymous, post) # => false
-abilities['post.delete'].call(admin, post)     # => true
+    role :anonymous, Anonymous.new
+
+    register(:read, :edit, :delete) { false }
+  end
+
+  class AdminAbilities
+    include Kan::Abilities
+
+    role :admin, Container['post.roles.admin'] # or use dry-container
+
+    register(:read, :edit, :delete) { |_, _| true }
+  end
+end
 ```
 
 ### Logger support

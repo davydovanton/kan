@@ -6,6 +6,8 @@ module Kan
       base.extend(ClassMethods)
     end
 
+    InvalidRoleObjectError = StandardError
+
     module ClassMethods
       DEFAULT_ROLE_NAME = :base
       DEFAULT_ROLE_BLOCK = proc { true }
@@ -15,9 +17,9 @@ module Kan
         abilities.each { |ability| @ability_list[ability.to_sym] = block }
       end
 
-      def role(role_name, klass = nil, &block)
+      def role(role_name, object = nil, &block)
         @role_name = role_name
-        @role_block = klass ? klass.new : block
+        @role_block = object ? make_callable(object) : block
       end
 
       def role_name
@@ -34,6 +36,18 @@ module Kan
 
       def ability_list
         @ability_list || {}
+      end
+
+      private
+
+      def make_callable(object)
+        callable_object = object.is_a?(Class) ? object.new : object
+
+        if callable_object.respond_to? :call
+          callable_object
+        else
+          raise InvalidRoleObjectError.new "role object #{object} does not support #call method"
+        end
       end
     end
 
