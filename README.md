@@ -16,6 +16,8 @@ Simple functional authorization library for ruby. Inspired by [transproc](https:
     * [Callable objects as role](#callable-objects-as-role)
   * [Dry-auto\_inject](#dry-auto_inject)
   * [Testing](#testing)
+    * [Ability](#ability)
+    * [Role](#role)
 * [Contributing](#contributing)
 * [License](#license)
 * [Code of Conduct](#code-of-conduct)
@@ -311,16 +313,31 @@ UpdateOperation.new(ability_checker: ->(*) { false })
 For expample we have a simple kan class:
 
 ```ruby
-class Comments::Abilities
-  include Kan::Abilities
 
-  register('read') { |user, _| user&.id }
+module Comments
+  module Roles
+    class Admin
+      def call(user, _)
+        user.admin?
+      end
+    end
+  end
 
-  register('edit') do |user, comment|
-    user.id == comment.id || user.admin?
+  class Abilities
+    include Kan::Abilities
+
+    role :admin, Roles::Admin.new
+
+    register('read') { |user, _| user&.id }
+
+    register('edit') do |user, comment|
+      user.id == comment.id || user.admin?
+    end
   end
 end
 ```
+
+#### Ability
 
 For testing specific ability use `#ability` Abilities method:
 
@@ -369,6 +386,52 @@ RSpec.describe Comments::Abilities, type: :ability do
       let(:user) { User.new(id: 1) }
       it { is_expected.not_to permit('comment.read', user) }
     end
+  end
+end
+```
+
+#### Role
+
+For testing role you can use two ways. The first - test role object:
+
+```ruby
+RSpec.describe Comments::Abilities, type: :ability do
+  let(:role) { Comments::Role::Admin.new }
+
+  subject { role.call(user) }
+
+  context 'when user admin' do
+    let(:user) { User.new(admin: true) }
+
+    it { expect(subject).to be_true }
+  end
+
+  context 'when user anonymous' do
+    let(:user) { User.new(admin: false) }
+
+    it { expect(subject).to be_false }
+  end
+end
+```
+
+Or use `#role_block` class method:
+
+```ruby
+RSpec.describe Comments::Abilities, type: :ability do
+  let(:role) { Comments::Abilities.role_block }
+
+  subject { role.call(user) }
+
+  context 'when user admin' do
+    let(:user) { User.new(admin: true) }
+
+    it { expect(subject).to be_true }
+  end
+
+  context 'when user anonymous' do
+    let(:user) { User.new(admin: false) }
+
+    it { expect(subject).to be_false }
   end
 end
 ```
