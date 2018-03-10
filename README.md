@@ -15,6 +15,7 @@ Simple functional authorization library for ruby. Inspired by [transproc](https:
     * [Class objects as role](#class-objects-as-role)
     * [Callable objects as role](#callable-objects-as-role)
   * [Dry-auto\_inject](#dry-auto_inject)
+  * [Testing](#testing)
 * [Contributing](#contributing)
 * [License](#license)
 * [Code of Conduct](#code-of-conduct)
@@ -321,7 +322,6 @@ class Comments::Abilities
 end
 ```
 
-#### Specific ability
 For testing specific ability use `#ability` Abilities method:
 
 ```ruby
@@ -349,6 +349,7 @@ end
 ```
 
 Or testing specific ability using custom matchers:
+
 ```ruby
 RSpec.describe Comments::Abilities, type: :ability do
   subject do
