@@ -16,17 +16,20 @@ RSpec.describe 'Rolle class' do
   describe 'when abilities set as array' do
     let(:app) { Kan::Application.new(post: [admin_post_abilities.new]) }
     let(:ability) { app['post.read'] }
+    let(:roles_ability) { app['post.roles'] }
 
     context 'and user is admin' do
       let(:admin) { double(:user, admin?: true) }
 
       it { expect(ability.call(admin, nil)).to eq true }
+      it { expect(roles_ability.call(admin, nil)).to eq [:admin] }
     end
 
     context 'and user is regular user' do
       let(:user) { double(:user, admin?: false) }
 
       it { expect(ability.call(user, nil)).to eq false }
+      it { expect(roles_ability.call(user, nil)).to eq [] }
     end
   end
 

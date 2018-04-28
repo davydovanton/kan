@@ -46,5 +46,11 @@ RSpec.describe Kan::AbilitiesList do
 
       it { expect(subject).to eq false }
     end
+
+    context 'when ability name detect roles' do
+      let(:ability_name) { 'roles' }
+
+        it { expect(subject).to eq [:manager, :base] }
+    end
   end
 end
