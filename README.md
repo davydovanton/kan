@@ -14,6 +14,7 @@ Simple functional authorization library for ruby. Inspired by [transproc](https:
   * [Roles](#roles)
     * [Class objects as role](#class-objects-as-role)
     * [Callable objects as role](#callable-objects-as-role)
+  * [Detect Roles](#detect-roles)
   * [Dry-auto\_inject](#dry-auto_inject)
   * [Testing](#testing)
     * [Ability](#ability)
@@ -265,6 +266,35 @@ module Post
     register(:read, :edit, :delete) { |_, _| true }
   end
 end
+```
+
+### Detect Roles
+Kan allow to detect all roles for specific payload. For this use `roles` calls in scope:
+
+```ruby
+module Post
+  class AnonymousAbilities
+    include Kan::Abilities
+
+    role :anonymous, Roles::Anonymous.new
+    register(:read, :edit, :delete) { false }
+  end
+
+  class AdminAbilities
+    include Kan::Abilities
+
+    role :admin, Roles::Admin.new
+    register(:read, :edit, :delete) { |_, _| true }
+  end
+end
+
+abilities = Kan::Application.new(
+  post: [AnonymousAbilities.new, AdminAbilities.new]
+)
+
+abilities['post.roles'].call(anonymous_user, payload) # => [:anonymous]
+abilities['post.roles'].call(admin_user, payload)     # => [:anonymous, :admin]
+
 ```
 
 ### Logger support
