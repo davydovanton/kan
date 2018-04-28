@@ -252,7 +252,7 @@ module Post
   class AnonymousAbilities
     include Kan::Abilities
 
-    role :anonymous, Anonymous.new
+    role :anonymous, Roles::Anonymous.new
 
     register(:read, :edit, :delete) { false }
   end
