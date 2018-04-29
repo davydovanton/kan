@@ -1,5 +1,7 @@
 ## HEAD
 
+* Allow to detect roles for abilities object and scope (@davydovanton) #28
+
 ## v0.3
 
 * Allow to use callable objects as a role objects (@davydovanton) #20
