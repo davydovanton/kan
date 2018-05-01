@@ -1,5 +1,3 @@
-Simple functional authorization library and role managment for ruby. Inspired by [transproc](https://github.com/solnic/transproc) and [dry project](http://dry-rb.org)
-
 ## Basic Usage
 ### Register abilities
 

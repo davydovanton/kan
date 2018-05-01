@@ -12,13 +12,16 @@
     <div class="container-lg px-3 my-5 markdown-body">
       {% if site.title and site.title != page.title %}
       <h1><a href="{{ "/" | absolute_url }}">{{ site.title }}</a></h1>
+      <p><a href="http://github.com/davydovanton/kan">GitHub</a></p>
       {% endif %}
 
+      <p>Simple functional authorization library and role managment for ruby. Inspired by <a href="https://github.com/solnic/transproc">transproc</a> and <a href="http://dry-rb.org">dry project</a></p>
+
       <ul>
-        <li><a href="/kan/">Base Usage</a></li>
-        <li><a href="/kan/roles">Roles</a></li>
-        <li><a href="/kan/testing">Testing</a></li>
-        <li><a href="/kan/working_with_dry">Dry integration</a></li>
+        <li><a href="{{ "/" | absolute_url }}">Base Usage</a></li>
+        <li><a href="{{ "/roles" | absolute_url }}">Roles</a></li>
+        <li><a href="{{ "/testing" | absolute_url }}">Testing</a></li>
+        <li><a href="{{ "/working_with_dry" | absolute_url }}">Dry integration</a></li>
       </ul>
 
       {{ content }}
@@ -28,6 +31,7 @@
         This site is open source. {% github_edit_link "Improve this page" %}.
       </div>
       {% endif %}
+
     </div>
   </body>
 </html>
