@@ -14,6 +14,13 @@
       <h1><a href="{{ "/" | absolute_url }}">{{ site.title }}</a></h1>
       {% endif %}
 
+      <ul>
+        <li><a href="/kan/">Base Usage</a></li>
+        <li><a href="/kan/roles">Roles</a></li>
+        <li><a href="/kan/testing">Testing</a></li>
+        <li><a href="/kan/working_with_dry">Dry integration</a></li>
+      </ul>
+
       {{ content }}
 
       {% if site.github.private != true and site.github.license %}

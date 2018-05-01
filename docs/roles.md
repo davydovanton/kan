@@ -1,4 +1,4 @@
-# Roles
+## Roles
 Kan provide simple role system. For this you need to define role block in each abilities classes:
 ```ruby
 module Post
@@ -70,7 +70,7 @@ abilities['post.delete'].call(author, post)    # => false
 abilities['post.delete'].call(admin, post)     # => true
 ```
 
-## Class objects as role
+### Class objects as role
 
 Kan allow to use classes as roles for incapulate and easily testing your roles.
 ```ruby
@@ -107,7 +107,7 @@ module Post
 end
 ```
 
-## Callable objects as role
+#### Callable objects as role
 
 Kan allow to use "callable" (objects with `#call` method) as a role object. For this just put it into ability class:
 ```ruby
@@ -144,7 +144,7 @@ module Post
 end
 ```
 
-## Detect Roles
+### Detect Roles
 Kan allow to detect all roles for specific payload. For this use `roles` calls in scope:
 
 ```ruby
