@@ -1,6 +1,7 @@
 ## HEAD
 
 * Allow to detect roles for abilities object and scope (@davydovanton) #28
+* New documentation page (@davydovanton) #21
 
 ## v0.3
 
