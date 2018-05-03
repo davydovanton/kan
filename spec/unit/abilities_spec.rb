@@ -87,5 +87,18 @@ RSpec.describe Kan::Abilities do
 
       it { expect(abilities.ability('read').call).to be_a logger.class }
     end
+
+    context 'when ability has wrong name' do
+
+      it 'raises error' do
+        expect do
+          class WrongAbilities
+            include Kan::Abilities
+
+            register(:roles) { |_| true }
+          end
+        end.to raise_error(Kan::Abilities::InvalidAbilityNameError)
+      end
+    end
   end
 end
