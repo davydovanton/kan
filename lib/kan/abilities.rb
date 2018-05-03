@@ -7,14 +7,18 @@ module Kan
     end
 
     InvalidRoleObjectError = StandardError
+    InvalidAbilityNameError = StandardError
 
     module ClassMethods
       DEFAULT_ROLE_NAME = :base
       DEFAULT_ROLE_BLOCK = proc { true }
 
       def register(*abilities, &block)
+        abilities.map!(&:to_sym)
+        fail InvalidAbilityNameError if abilities.include?(:roles)
+
         @ability_list ||= {}
-        abilities.each { |ability| @ability_list[ability.to_sym] = block }
+        abilities.each { |ability| @ability_list[ability] = block }
       end
 
       def role(role_name, object = nil, &block)
