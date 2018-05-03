@@ -122,7 +122,12 @@ global_abilities['post.edit'].call(admin_user, post)   # => true
 
 ## Contributing
 
+### Code and features
+
 Bug reports and pull requests are welcome on GitHub at https://github.com/davydovanton/kan. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+### Docs
+Just send PR with changes in `docs/` folder.
 
 ### How to instal the project
 Just clone repository and call:
