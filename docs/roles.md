@@ -1,5 +1,6 @@
 ## Roles
-Kan provide simple role system. For this you need to define role block in each abilities classes:
+Kan provide simple role system. It will detect all abilities object where role is true. For this you need to define role block in each abilities classes:
+
 ```ruby
 module Post
   class AnonymousAbilities
@@ -48,16 +49,17 @@ end
 ```
 
 After that initialize Kan application object and call it with payload:
+
 ```ruby
 abilities = Kan::Application.new(
   post: [Post::AnonymousAbilities.new, Post::BaseAbilities.new, Post::AuthorAbilities.new, Post::AdminAbilities.new],
   comment: Comments::Abilities.new
 )
 
-abilities['post.read'].call(anonymous, post) # => false
-abilities['post.read'].call(regular, post)   # => true
-abilities['post.read'].call(author, post)    # => true
-abilities['post.read'].call(admin, post)     # => true
+abilities['post.read'].call(anonymous, post) # => role: true (anonymous), result: false
+abilities['post.read'].call(regular, post)   # => role: true (base), result: true
+abilities['post.read'].call(author, post)    # => role: true (author), result: true
+abilities['post.read'].call(admin, post)     # => role: true (admin), result: true
 
 abilities['post.edit'].call(anonymous, post) # => false
 abilities['post.edit'].call(regular, post)   # => false
@@ -73,6 +75,7 @@ abilities['post.delete'].call(admin, post)     # => true
 ### Class objects as role
 
 Kan allow to use classes as roles for incapulate and easily testing your roles.
+
 ```ruby
 module Post
   module Roles
@@ -110,6 +113,7 @@ end
 #### Callable objects as role
 
 Kan allow to use "callable" (objects with `#call` method) as a role object. For this just put it into ability class:
+
 ```ruby
 module Post
   module Roles
@@ -145,6 +149,7 @@ end
 ```
 
 ### Detect Roles
+
 Kan allow to detect all roles for specific payload. For this use `roles` calls in scope:
 
 ```ruby
@@ -170,5 +175,4 @@ abilities = Kan::Application.new(
 
 abilities['post.roles'].call(anonymous_user, payload) # => [:anonymous]
 abilities['post.roles'].call(admin_user, payload)     # => [:anonymous, :admin]
-
 ```

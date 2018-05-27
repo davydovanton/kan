@@ -7,10 +7,11 @@ module Kan
 
     def [](ability)
       scope, ability_name = ability.split('.')
-
       abilities = Array(@scopes[scope.to_sym])
+
       raise_scope_error(scope) if abilities.empty?
       return @abilities_lists[ability] if @abilities_lists[ability]
+
       @abilities_lists[ability] = AbilitiesList.new(ability_name, abilities)
     end
 
