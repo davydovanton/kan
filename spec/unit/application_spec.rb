@@ -36,5 +36,12 @@ RSpec.describe Kan::Application do
     context 'when scope does not exist' do
       it { expect { app['tasks.read'].call }.to raise_error 'Invalid scope tasks' }
     end
+
+    context 'when kan application empty' do
+      it { expect { Kan::Application.new }.to raise_error(Kan::Application::InvalidScopeError) }
+      it { expect { Kan::Application.new({}) }.to raise_error(Kan::Application::InvalidScopeError) }
+      it { expect { Kan::Application.new([]) }.to raise_error(Kan::Application::InvalidScopeError) }
+      it { expect { Kan::Application.new(:invalid) }.to raise_error(Kan::Application::InvalidScopeError) }
+    end
   end
 end
