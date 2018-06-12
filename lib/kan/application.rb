@@ -1,6 +1,11 @@
 module Kan
   class Application
-    def initialize(scopes)
+    class InvalidScopeError < StandardError; end
+
+    def initialize(scopes = {})
+      raise(InvalidScopeError) unless scopes.is_a?(Hash)
+      raise(InvalidScopeError) if scopes.empty?
+
       @scopes = Hash(scopes)
       @abilities_lists = {}
     end

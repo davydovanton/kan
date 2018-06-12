@@ -6,8 +6,8 @@ module Kan
       base.extend(ClassMethods)
     end
 
-    InvalidRoleObjectError = StandardError
-    InvalidAbilityNameError = StandardError
+    class InvalidRoleObjectError < StandardError; end
+    class InvalidAbilityNameError < StandardError; end
 
     module ClassMethods
       DEFAULT_ROLE_NAME = :base
