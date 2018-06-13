@@ -1,5 +1,6 @@
 ## HEAD
 
+* Raise error if application take invalid scope (@davydovanton) #31
 * Raise error if user try to register `roles` ability (@davydovanton) #30
 * Allow to detect roles for abilities object and scope (@davydovanton) #28
 * New documentation page (@davydovanton) #21
