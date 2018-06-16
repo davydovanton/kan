@@ -1,6 +1,6 @@
 module Kan
   class AbilitiesList
-    ROLES_DETECT = 'roles'
+    ROLES_DETECT = 'roles'.freeze
 
     def initialize(name, list)
       @name = name
@@ -11,7 +11,7 @@ module Kan
       @name == ROLES_DETECT ? mapped_roles(payload) : ability_check(payload)
     end
 
-  private
+    private
 
     def ability_check(payload)
       @list

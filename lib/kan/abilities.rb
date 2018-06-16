@@ -15,7 +15,7 @@ module Kan
 
       def register(*abilities, &block)
         abilities.map!(&:to_sym)
-        fail InvalidAbilityNameError if abilities.include?(:roles)
+        raise InvalidAbilityNameError if abilities.include?(:roles)
 
         @ability_list ||= {}
         abilities.each { |ability| @ability_list[ability] = block }
@@ -66,7 +66,7 @@ module Kan
 
     def ability(name)
       rule = self.class.ability_list[name.to_sym] || @options[:default_ability_block] || DEFAULT_ABILITY_BLOCK
-      lambda { |*args| instance_exec(args, &rule) }
+      ->(*args) { instance_exec(args, &rule) }
     end
   end
 end

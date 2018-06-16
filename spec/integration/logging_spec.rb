@@ -16,7 +16,7 @@ RSpec.describe 'logger support' do
   end
 
   it do
-    app['logger.info'].()
+    app['logger.info'].call
     expect(logger).to have_received(:info).with('Log read ability')
   end
 end

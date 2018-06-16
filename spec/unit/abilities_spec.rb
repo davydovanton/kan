@@ -33,7 +33,7 @@ RSpec.describe Kan::Abilities do
     it { expect(EmptyAbilities.ability_list).to eq({}) }
 
     it { expect(PostAbilities.ability_list).to be_a Hash }
-    it { expect(PostAbilities.ability_list.keys).to eq [:read, :edit] }
+    it { expect(PostAbilities.ability_list.keys).to eq %i[read edit] }
   end
 
   describe '::role_name' do
@@ -89,7 +89,6 @@ RSpec.describe Kan::Abilities do
     end
 
     context 'when ability has wrong name' do
-
       it 'raises error' do
         expect do
           class WrongAbilities
