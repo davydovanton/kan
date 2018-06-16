@@ -47,11 +47,9 @@ module Kan
       def make_callable(object)
         callable_object = object.is_a?(Class) ? object.new : object
 
-        if callable_object.respond_to? :call
-          callable_object
-        else
-          raise InvalidRoleObjectError.new "role object #{object} does not support #call method"
-        end
+        return callable_object if callable_object.respond_to? :call
+
+        raise InvalidRoleObjectError.new "role object #{object} does not support #call method"
       end
     end
 
