@@ -1,5 +1,7 @@
 ## HEAD
 
+## v0.4
+
 * Add rubocop to the project (@davydovanton)
 * Raise error if application take invalid scope (@davydovanton) #31
 * Raise error if user try to register `roles` ability (@davydovanton) #30
