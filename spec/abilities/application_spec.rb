@@ -31,25 +31,25 @@ RSpec.describe Kan::Application, type: :ability do
 
   permissions do
     describe "Post Abilities" do
-      it "grant all access for read" do
-        expect(subject).to permit('post.read', user, post)
-        expect(subject).to permit('post.read', user, other_post)
+      context "grant all access for read" do
+        it { is_expected.to permit('post.read', user, post) }
+        it { is_expected.to permit('post.read', user, other_post) }
       end
 
-      it "grant owner access for edit" do
-        expect(subject).to permit('post.edit', user, post)
-        expect(subject).not_to permit('post.edit', user, other_post)
+      context "grant owner access for edit" do
+        it { is_expected.to permit('post.edit', user, post) }
+        it { is_expected.not_to permit('post.edit', user, other_post) }
       end
     end
 
     describe "User Abilities" do
-      it "grant all users access for read" do
-        expect(subject).to permit('user.read', user)
+      context "grant all users access for read" do
+        it { is_expected.to permit('user.read', user) }
       end
 
-      it "deny normal user access for delete" do
-        expect(subject).not_to permit('user.delete', user)
-        expect(subject).to permit('user.delete', admin)
+      context "deny normal user access for delete" do
+        it { is_expected.not_to permit('user.delete', user) }
+        it { is_expected.to permit('user.delete', admin) }
       end
     end
   end
