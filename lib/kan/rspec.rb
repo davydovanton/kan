@@ -31,7 +31,7 @@ module Kan
 
     module DSL
       def permissions(&block)
-        describe(caller: caller) { instance_eval(&block) }
+        describe { instance_eval(&block) }
       end
     end
 
