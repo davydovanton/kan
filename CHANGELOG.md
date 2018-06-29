@@ -1,5 +1,7 @@
 ## HEAD
 
+* Refactor Test Case (@berniechiu) #32
+
 ## v0.4
 
 * Add rubocop to the project (@davydovanton)
