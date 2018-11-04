@@ -1,5 +1,7 @@
 # Kan
 [![Build Status](https://travis-ci.org/davydovanton/kan.svg?branch=master)](https://travis-ci.org/davydovanton/kan)
+[![Backers on Open Collective](https://opencollective.com/kan/backers/badge.svg)](#backers)
+ [![Sponsors on Open Collective](https://opencollective.com/kan/sponsors/badge.svg)](#sponsors) 
 
 Simple functional authorization library for ruby. Inspired by [transproc](https://github.com/solnic/transproc) and [dry project](http://dry-rb.org)
 
@@ -136,6 +138,36 @@ Just clone repository and call:
 $ bundle install
 $ bundle exec rspec
 ```
+
+## Contributors
+
+This project exists thanks to all the people who contribute. 
+<a href="https://github.com/davydovanton/kan/contributors"><img src="https://opencollective.com/kan/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/kan#backer)]
+
+<a href="https://opencollective.com/kan#backers" target="_blank"><img src="https://opencollective.com/kan/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/kan#sponsor)]
+
+<a href="https://opencollective.com/kan/sponsor/0/website" target="_blank"><img src="https://opencollective.com/kan/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/kan/sponsor/1/website" target="_blank"><img src="https://opencollective.com/kan/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/kan/sponsor/2/website" target="_blank"><img src="https://opencollective.com/kan/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/kan/sponsor/3/website" target="_blank"><img src="https://opencollective.com/kan/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/kan/sponsor/4/website" target="_blank"><img src="https://opencollective.com/kan/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/kan/sponsor/5/website" target="_blank"><img src="https://opencollective.com/kan/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/kan/sponsor/6/website" target="_blank"><img src="https://opencollective.com/kan/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/kan/sponsor/7/website" target="_blank"><img src="https://opencollective.com/kan/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/kan/sponsor/8/website" target="_blank"><img src="https://opencollective.com/kan/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/kan/sponsor/9/website" target="_blank"><img src="https://opencollective.com/kan/sponsor/9/avatar.svg"></a>
+
+
 
 ## License
 
