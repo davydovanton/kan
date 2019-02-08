@@ -8,17 +8,36 @@ module Kan
 
     class InvalidRoleObjectError < StandardError; end
     class InvalidAbilityNameError < StandardError; end
+    class InvalidAliasNameError < StandardError; end
 
     module ClassMethods
+      RESERVED_NAME = :roles.freeze
       DEFAULT_ROLE_NAME = :base
       DEFAULT_ROLE_BLOCK = proc { true }
 
       def register(*abilities, &block)
         abilities.map!(&:to_sym)
-        raise InvalidAbilityNameError if abilities.include?(:roles)
+        raise InvalidAbilityNameError if abilities.include?(RESERVED_NAME)
 
-        @ability_list ||= {}
-        abilities.each { |ability| @ability_list[ability] = block }
+        abilities.each do |ability|
+          aliases.delete(ability)
+          ability_list[ability] = block
+        end
+      end
+
+      def register_alias(name, ability)
+        normalized_name = name.to_sym
+        normalized_ability = ability.to_sym
+        raise InvalidAliasNameError if normalized_name == RESERVED_NAME
+
+        aliases[normalized_name] = normalized_ability
+      end
+
+      def ability(name)
+        normalized_name = name.to_sym
+        ability = aliases.fetch(normalized_name, normalized_name)
+
+        ability_list[ability]
       end
 
       def role(role_name, object = nil, &block)
@@ -39,10 +58,14 @@ module Kan
       end
 
       def ability_list
-        @ability_list || {}
+        @ability_list ||= {}
       end
 
       private
+
+      def aliases
+        @aliases ||= {}
+      end
 
       def make_callable(object)
         callable_object = object.is_a?(Class) ? object.new : object
@@ -63,7 +86,7 @@ module Kan
     end
 
     def ability(name)
-      rule = self.class.ability_list[name.to_sym] || @options[:default_ability_block] || DEFAULT_ABILITY_BLOCK
+      rule = self.class.ability(name) || @options[:default_ability_block] || DEFAULT_ABILITY_BLOCK
       ->(*args) { instance_exec(args, &rule) }
     end
   end

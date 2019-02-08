@@ -1,7 +1,7 @@
 # Kan
 [![Build Status](https://travis-ci.org/davydovanton/kan.svg?branch=master)](https://travis-ci.org/davydovanton/kan)
 [![Backers on Open Collective](https://opencollective.com/kan/backers/badge.svg)](#backers)
- [![Sponsors on Open Collective](https://opencollective.com/kan/sponsors/badge.svg)](#sponsors) 
+ [![Sponsors on Open Collective](https://opencollective.com/kan/sponsors/badge.svg)](#sponsors)
 
 Simple functional authorization library for ruby. Inspired by [transproc](https://github.com/solnic/transproc) and [dry project](http://dry-rb.org)
 
@@ -122,6 +122,24 @@ global_abilities['post.edit'].call(owner_user, post)   # => true
 global_abilities['post.edit'].call(admin_user, post)   # => true
 ```
 
+### Aliases
+
+You can use strings or symbols and then use it as name of ability
+
+```ruby
+class Post::Abilities
+  include Kan::Abilities
+
+  register(:edit) { |_, _| true }
+  register_alias(:correct, 'edit')
+end
+
+abilities = Kan::Application.new(
+  post: Post::Abilities.new
+)
+
+abilities['post.correct'].call(current_user, post) # => true
+```
 ## Contributing
 
 ### Code and features
@@ -141,7 +159,7 @@ $ bundle exec rspec
 
 ## Contributors
 
-This project exists thanks to all the people who contribute. 
+This project exists thanks to all the people who contribute.
 <a href="https://github.com/davydovanton/kan/contributors"><img src="https://opencollective.com/kan/contributors.svg?width=890&button=false" /></a>
 
 

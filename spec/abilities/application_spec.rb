@@ -7,6 +7,8 @@ RSpec.describe Kan::Application, type: :ability do
 
       register(:read) { |_| true }
       register(:edit) { |user, post| user.id == post.user_id }
+
+      register_alias(:alias_read, :read)
     end
 
     class UserAbilities
@@ -32,8 +34,8 @@ RSpec.describe Kan::Application, type: :ability do
   permissions do
     describe "Post Abilities" do
       context "grant all access for read" do
-        it { is_expected.to permit('post.read', user, post) }
-        it { is_expected.to permit('post.read', user, other_post) }
+        it { is_expected.to permit('post.alias_read', user, post) }
+        it { is_expected.to permit('post.alias_read', user, other_post) }
       end
 
       context "grant owner access for edit" do
