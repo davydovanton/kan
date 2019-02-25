@@ -1,7 +1,7 @@
 # Kan
 [![Build Status](https://travis-ci.org/davydovanton/kan.svg?branch=master)](https://travis-ci.org/davydovanton/kan)
 [![Backers on Open Collective](https://opencollective.com/kan/backers/badge.svg)](#backers)
- [![Sponsors on Open Collective](https://opencollective.com/kan/sponsors/badge.svg)](#sponsors) 
+ [![Sponsors on Open Collective](https://opencollective.com/kan/sponsors/badge.svg)](#sponsors)
 
 Simple functional authorization library for ruby. Inspired by [transproc](https://github.com/solnic/transproc) and [dry project](http://dry-rb.org)
 
@@ -31,13 +31,13 @@ Or install it yourself as:
 
 ## Usage
 
-See [User Documentation page](https://blog.davydovanton.com/kan/)
+See [User Documentation page](http://kanrb.org/)
 
-* [Base Usage](https://blog.davydovanton.com/kan/)
-* [Roles](https://blog.davydovanton.com/kan/roles)
-* [Testing](https://blog.davydovanton.com/kan/testing)
-* [Dry integration](https://blog.davydovanton.com/kan/working_with_dry)
-* [F.A.Q.]()https://blog.davydovanton.com/kan/faq
+* [Basic Usage](http://kanrb.org/basic_usage)
+* [Roles](http://kanrb.org/roles)
+* [Testing](http://kanrb.org/testing)
+* [Dry integration](http://kanrb.org/working_with_dry)
+* [F.A.Q.](http://kanrb.org/faq)
 
 ## Basic Usage
 
@@ -141,7 +141,7 @@ $ bundle exec rspec
 
 ## Contributors
 
-This project exists thanks to all the people who contribute. 
+This project exists thanks to all the people who contribute.
 <a href="https://github.com/davydovanton/kan/contributors"><img src="https://opencollective.com/kan/contributors.svg?width=890&button=false" /></a>
 
 
