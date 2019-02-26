@@ -21,6 +21,20 @@ RSpec.describe Kan::Abilities do
     register('logger') { logger }
   end
 
+  class AliasAbilities
+    include Kan::Abilities
+
+    register_alias('alias_before_ability', :read)
+
+    register(:read) { true }
+    register(:edit) { false }
+
+    register_alias(:alias_after_ability, 'edit')
+    register_alias(:overrided_alias, :edit)
+
+    register(:overrided_alias) { true }
+  end
+
   class LogAbilities
     include Kan::Abilities
 
@@ -48,7 +62,7 @@ RSpec.describe Kan::Abilities do
     it { expect(ArrayAbilities.role_block.call).to eq true }
   end
 
-  describe '#action' do
+  describe '#ability' do
     it { expect(abilities.ability('read')).to be_a Proc }
 
     it { expect(abilities.ability('read').call).to eq true }
@@ -88,6 +102,15 @@ RSpec.describe Kan::Abilities do
       it { expect(abilities.ability('read').call).to be_a logger.class }
     end
 
+    context 'with alias register' do
+      let(:abilities) { AliasAbilities.new }
+
+      it { expect(abilities.ability('alias_before_ability').call).to eq true }
+      it { expect(abilities.ability(:alias_before_ability).call).to eq true }
+      it { expect(abilities.ability(:alias_after_ability).call).to eq false }
+      it { expect(abilities.ability(:overrided_alias).call).to eq true }
+    end
+
     context 'when ability has wrong name' do
       it 'raises error' do
         expect do
@@ -97,6 +120,19 @@ RSpec.describe Kan::Abilities do
             register(:roles) { |_| true }
           end
         end.to raise_error(Kan::Abilities::InvalidAbilityNameError)
+      end
+    end
+
+    context 'when alias has wrong name' do
+      it 'raises error' do
+        expect do
+          class WrongAbilities
+            include Kan::Abilities
+
+            register(:read) { |_| true }
+            register_alias(:roles, :read)
+          end
+        end.to raise_error(Kan::Abilities::InvalidAliasNameError)
       end
     end
   end
