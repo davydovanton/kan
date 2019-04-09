@@ -82,12 +82,19 @@ module Kan
 
     def initialize(options = {})
       @options = options
+      @after_call_callback = options[:after_call_callback]
       @logger = @options.fetch(:logger, Logger.new(STDOUT))
     end
 
     def ability(name)
-      rule = self.class.ability(name) || @options[:default_ability_block] || DEFAULT_ABILITY_BLOCK
-      ->(*args) { instance_exec(args, &rule) }
+      normalized_name = name.to_sym
+      rule = self.class.ability(normalized_name) || @options[:default_ability_block] || DEFAULT_ABILITY_BLOCK
+
+      ->(*args) do
+        result = instance_exec(args, &rule)
+        @after_call_callback && @after_call_callback.call(normalized_name, args)
+        result
+      end
     end
   end
 end

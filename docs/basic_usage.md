@@ -98,3 +98,16 @@ abilities = Kan::Application.new(
 
 abilities['post.correct'].call(current_user, post) # => true
 ```
+
+### Callback
+
+You can provide callable object (that respond to #call) that accepts ability_name and payload params to `after_call_callback` param of your ability:
+```ruby
+admin_abilities = Kan::Application.new(
+  post: Post::AdminAbilities.new(after_call_callback: -> (ability_name, payload) { ... }),
+  comment: Comments::Abilities.new,
+)
+
+admin_abilities['post.read'].call(current_user, post) # => false
+```
+Your object will be executed after calling ability.
