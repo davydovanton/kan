@@ -44,4 +44,17 @@ RSpec.describe Kan::Application do
       it { expect { Kan::Application.new(:invalid) }.to raise_error(Kan::Application::InvalidScopeError) }
     end
   end
+
+  describe 'key?' do
+    it { expect(app.key?('user.read')).to eq true }
+    it { expect(app.key?('post.edit')).to eq true }
+
+    context 'when ability does not exist' do
+      it { expect(app.key?('user.not_exist')).to eq false }
+    end
+
+    context 'when scope does not exist' do
+      it { expect(app.key?('tasks.read')).to eq false }
+    end
+  end
 end

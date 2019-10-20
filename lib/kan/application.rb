@@ -20,6 +20,11 @@ module Kan
       @abilities_lists[ability] = AbilitiesList.new(ability_name, abilities)
     end
 
+    def key?(ability)
+      scope, ability_name = ability.to_s.split('.')
+      !!@scopes[scope.to_sym]&.class&.ability(ability_name)
+    end
+
     private
 
     def raise_scope_error(scope)
