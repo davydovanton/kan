@@ -13,6 +13,7 @@ end
 class Kan::Application
   def [](ability); end
   def initialize(scopes = nil); end
+  def key?(ability); end
   def raise_scope_error(scope); end
 end
 
