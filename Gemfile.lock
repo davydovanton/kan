@@ -22,7 +22,7 @@ GEM
     powerpack (0.1.2)
     rainbow (2.2.2)
       rake
-    rake (10.5.0)
+    rake (13.0.1)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
@@ -53,7 +53,7 @@ DEPENDENCIES
   bundler (~> 1.16)
   dry-auto_inject
   kan!
-  rake (~> 10.0)
+  rake (~> 13.0)
   rspec (~> 3.7)
   rubocop (= 0.50.0)
 
