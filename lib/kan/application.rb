@@ -1,6 +1,7 @@
 module Kan
   class Application
     class InvalidScopeError < StandardError; end
+    class MissingScopeError < StandardError; end
 
     def initialize(scopes = {})
       raise(InvalidScopeError) unless scopes.is_a?(Hash)
@@ -28,7 +29,7 @@ module Kan
     private
 
     def raise_scope_error(scope)
-      raise ArgumentError.new("Invalid scope #{scope}")
+      raise MissingScopeError.new("Invalid scope #{scope}")
     end
   end
 end

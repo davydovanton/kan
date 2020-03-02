@@ -54,5 +54,12 @@ RSpec.describe Kan::Application, type: :ability do
         it { is_expected.to permit('user.delete', admin) }
       end
     end
+
+    describe "Missing Scope" do
+      it do
+        expect { subject['something.missing'] }
+          .to raise_error(Kan::Application::MissingScopeError)
+      end
+    end
   end
 end
