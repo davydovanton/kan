@@ -61,5 +61,16 @@ RSpec.describe Kan::Application, type: :ability do
           .to raise_error(Kan::Application::MissingScopeError)
       end
     end
+
+    describe "Implicit call" do
+      it { is_expected.to permit([:user, :delete], admin) }
+      it do
+        expect { subject[{}] }
+          .to raise_error(
+            Kan::Application::AbilityTypeError,
+            "String or Array expected, got Hash"
+          )
+      end
+    end
   end
 end
