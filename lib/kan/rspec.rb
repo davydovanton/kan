@@ -13,12 +13,12 @@ module Kan
         end
 
         failure_message_proc = lambda do |_app|
-          target, action = ability.split('.')
+          target, action = ability.is_a?(String) ? ability.split('.') : ability
           "Expected #{target} to grant #{action} but not granted"
         end
 
         failure_message_when_negated_proc = lambda do |_app|
-          target, action = ability.split('.')
+          target, action = ability.is_a?(String) ? ability.split('.') : ability
           "Expected #{target} not to grant #{action} but granted"
         end
 
